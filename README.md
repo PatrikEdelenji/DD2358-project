@@ -1,3 +1,5 @@
+This repo is cloned from: https://github.com/pmocz/sph-python
+
 # sph-python
 Smoothed-Particle Hydrodynamics simulation of Toy Star
 
