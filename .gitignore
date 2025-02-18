@@ -1,0 +1,12 @@
+# Ignore virtual environment
+cython/cython_env/
+
+# Ignore compiled Cython files
+*.so
+*.pyd
+build/
+dist/
+*.c
+*.o
+*.cpp
+__pycache__/

@@ -1,0 +1,935 @@
+
+
+
+Function Execution Summary for N = 100, tEnd = 5
+getPairwiseSeparations: Min: 0.000042s, Max: 0.000397s, Avg: 0.000105s, Calls: 502
+W: Min: 0.000113s, Max: 0.000651s, Avg: 0.000236s, Calls: 376
+getDensity: Min: 0.001878s, Max: 0.007209s, Avg: 0.004274s, Calls: 376
+getPressure: Min: 0.000007s, Max: 0.000081s, Avg: 0.000031s, Calls: 126
+gradW: Min: 0.000139s, Max: 0.000754s, Avg: 0.000286s, Calls: 126
+getAcc: Min: 0.007119s, Max: 0.017254s, Avg: 0.011783s, Calls: 126
+Whole process took 11.438796281814575 seconds
+
+
+Function Execution Summary for N = 200, tEnd = 5
+getPairwiseSeparations: Min: 0.000118s, Max: 0.001420s, Avg: 0.000405s, Calls: 502
+W: Min: 0.000265s, Max: 0.002126s, Avg: 0.000824s, Calls: 376
+getDensity: Min: 0.003903s, Max: 0.008532s, Avg: 0.005721s, Calls: 376
+getPressure: Min: 0.000012s, Max: 0.000082s, Avg: 0.000037s, Calls: 126
+gradW: Min: 0.000694s, Max: 0.002569s, Avg: 0.001218s, Calls: 126
+getAcc: Min: 0.012138s, Max: 0.023415s, Avg: 0.015974s, Calls: 126
+Whole process took 12.274306535720825 seconds
+
+
+Function Execution Summary for N = 400, tEnd = 5
+getPairwiseSeparations: Min: 0.000369s, Max: 0.018155s, Avg: 0.001453s, Calls: 502
+W: Min: 0.000590s, Max: 0.014018s, Avg: 0.005227s, Calls: 376
+getDensity: Min: 0.003950s, Max: 0.029530s, Avg: 0.011972s, Calls: 376
+getPressure: Min: 0.000010s, Max: 0.000094s, Avg: 0.000034s, Calls: 126
+gradW: Min: 0.005709s, Max: 0.020451s, Avg: 0.009903s, Calls: 126
+getAcc: Min: 0.026113s, Max: 0.064957s, Avg: 0.040720s, Calls: 126
+Whole process took 17.146140336990356 seconds
+
+
+Function Execution Summary for N = 1000, eEnd = 5
+getPairwiseSeparations: Min: 0.001131s, Max: 0.016886s, Avg: 0.007349s, Calls: 502
+W: Min: 0.002702s, Max: 0.092760s, Avg: 0.029699s, Calls: 376
+getDensity: Min: 0.008037s, Max: 0.116724s, Avg: 0.046222s, Calls: 376
+getPressure: Min: 0.000025s, Max: 0.000102s, Avg: 0.000047s, Calls: 126
+gradW: Min: 0.045591s, Max: 0.091591s, Avg: 0.057339s, Calls: 126
+getAcc: Min: 0.146226s, Max: 0.266046s, Avg: 0.176329s, Calls: 126
+Whole process took 43.4126615524292 seconds
+
+For cython N = 1000, eEnd = 5:
+Whole process took 25.21004891395569 seconds  (Main thing)
+
+
+Verdict:
+
+Obviously, with increased number of particles, our functions are taking longer to execute.
+
+The functions that take the longest to execute per call are ranked as follows (for N = 1000):
+
+1. getAcc - Avg: 0.176329s
+2. gradW - Avg: 0.057339s
+3. getDensity - Avg: 0.046222s
+4. W - Avg: 0.029699s
+5. getPairwiseSeparations - Avg: 0.007349s
+6. getPressure - Avg: 0.000047s
+
+
+Main culprit as to why our execution is slow are getAcc and getDensity (it has more calls than gradW).
+
+
+
+
+         16452611 function calls (16012350 primitive calls) in 15.720 seconds     
+
+   Ordered by: cumulative time
+   List reduced from 4615 to 500 due to restriction <500>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    536/1    0.004    0.000   15.735   15.735 {built-in method builtins.exec} 
+
+
+
+        1    0.000    0.000   15.735   15.735 sph.py:1(<module>)
+        1    0.011    0.011   14.725   14.725 sph.py:193(main)
+
+
+
+      125    0.001    0.000    8.697    0.070 pyplot.py:733(pause)
+      125    0.001    0.000    8.517    0.068 _backend_tk.py:413(start_event_loop)
+      125    0.000    0.000    8.513    0.068 __init__.py:1597(mainloop)
+      125    0.175    0.001    8.513    0.068 {method 'mainloop' of '_tkinter.tkapp' objects}
+      256    0.001    0.000    8.338    0.033 __init__.py:2063(__call__)
+      248    0.001    0.000    8.332    0.034 __init__.py:860(callit)
+      123    0.000    0.000    8.325    0.068 _backend_tk.py:269(idle_draw)
+      123    0.001    0.000    8.325    0.068 backend_tkagg.py:9(draw)
+      123    0.002    0.000    8.140    0.066 backend_agg.py:380(draw)
+      123    0.000    0.000    8.124    0.066 artist.py:93(draw_wrapper)
+17220/123    0.052    0.000    8.124    0.066 artist.py:54(draw_wrapper)
+      123    0.003    0.000    8.123    0.066 figure.py:3142(draw)
+  369/123    0.004    0.000    7.995    0.065 image.py:114(_draw_list_compositing_images)
+      246    0.007    0.000    7.993    0.032 _base.py:3072(draw)
+      492    0.011    0.000    7.289    0.015 axis.py:1415(draw)
+3488/1988    0.018    0.000    5.686    0.003 axis.py:1591(_get_tick)
+65461/50590    0.053    0.000    5.245    0.000 deprecation.py:292(wrapper)
+     1726    0.006    0.000    5.039    0.003 axis.py:1650(get_major_ticks)
+2004/1498    0.013    0.000    4.870    0.003 axis.py:1134(set_clip_path)
+1512/1006    0.088    0.000    4.678    0.005 axis.py:912(reset_ticks)
+     1476    0.056    0.000    4.232    0.003 axis.py:1295(_update_ticks)
+2506/1496    0.006    0.000    3.834    0.003 axis.py:561(__get__)
+     3488    0.144    0.000    3.573    0.001 axis.py:59(__init__)
+14960/7952    0.051    0.000    2.986    0.000 spines.py:339(get_spine_transform)
+1866/1116    0.026    0.000    2.967    0.003 axis.py:394(__init__)
+14960/7952    0.005    0.000    2.945    0.000 spines.py:202(_ensure_position_is_set)
+      252    0.001    0.000    2.944    0.012 _base.py:1384(clear)
+      252    0.021    0.000    2.944    0.012 _base.py:1257(__clear)
+ 1008/508    0.004    0.000    2.943    0.006 spines.py:299(set_position)
+      250    0.001    0.000    2.924    0.012 pyplot.py:1357(cla)
+      250    0.000    0.000    2.920    0.012 _base.py:1393(cla)
+ 1622/872    0.022    0.000    2.708    0.003 axis.py:455(__init__)
+      504    0.009    0.000    2.184    0.004 axis.py:870(clear)
+     1500    0.003    0.000    2.100    0.001 _base.py:73(wrapper)
+      250    0.000    0.000    2.092    0.008 axis.py:2137(set_ticks)
+      250    0.003    0.000    2.092    0.008 axis.py:2119(_set_tick_locations)
+     1968    0.016    0.000    1.729    0.001 axis.py:269(draw)
+       68    0.003    0.000    1.713    0.025 __init__.py:1(<module>)
+    46610    0.370    0.000    1.711    0.000 artist.py:1173(_update_props)
+    10714    0.242    0.000    1.656    0.000 lines.py:287(__init__)
+15102/4360    0.012    0.000    1.545    0.000 _base.py:992(get_yaxis_transform)
+17298/5580    0.014    0.000    1.456    0.000 _base.py:912(get_xaxis_transform)
+    38870    0.032    0.000    1.454    0.000 artist.py:1209(_internal_update)
+    11451    0.101    0.000    1.445    0.000 artist.py:769(set_clip_path)
+    27903    0.034    0.000    1.357    0.000 artist.py:147(<lambda>)
+    27903    0.039    0.000    1.322    0.000 artist.py:1220(set)
+     4536    0.011    0.000    1.148    0.000 axis.py:234(set_clip_path)
+     5658    0.070    0.000    1.143    0.000 text.py:737(draw)
+     7740    0.027    0.000    1.136    0.000 text.py:104(__init__)
+    13308    0.027    0.000    1.061    0.000 patches.py:306(get_transform)
+     4674    0.052    0.000    1.060    0.000 text.py:918(get_window_extent)
+   653/15    0.003    0.000    1.045    0.070 <frozen importlib._bootstrap>:1349(_find_and_load)
+   647/15    0.002    0.000    1.045    0.070 <frozen importlib._bootstrap>:1304(_find_and_load_unlocked)
+     5904    0.200    0.000    1.040    0.000 text.py:358(_get_layout)
+   623/17    0.002    0.000    1.040    0.061 <frozen importlib._bootstrap>:911(_load_unlocked)
+   529/16    0.001    0.000    1.039    0.065 <frozen importlib._bootstrap_external>:1016(exec_module)
+  1547/27    0.001    0.000    1.036    0.038 <frozen importlib._bootstrap>:480(_call_with_frames_removed)
+      984    0.011    0.000    1.001    0.001 axis.py:1347(_get_ticklabel_bboxes)
+   538/33    0.001    0.000    0.973    0.029 {built-in method builtins.__import__}
+    20761    0.027    0.000    0.938    0.000 markers.py:220(__init__)
+    11832    0.096    0.000    0.922    0.000 patches.py:790(get_patch_transform)
+      492    0.005    0.000    0.903    0.002 axis.py:2188(_get_tick_boxes_siblings)
+ 1195/607    0.002    0.000    0.893    0.001 <frozen importlib._bootstrap>:1390(_handle_fromlist)
+    20761    0.066    0.000    0.853    0.000 markers.py:299(_set_marker)
+      246    0.003    0.000    0.814    0.003 axis.py:2403(_update_label_position)
+      982    0.008    0.000    0.744    0.001 axis.py:1612(_copy_tick_props)
+      246    0.003    0.000    0.719    0.003 axis.py:2644(_update_label_position)
+     8748    0.079    0.000    0.713    0.000 text.py:157(_reset_visual_defaults)
+     2946    0.010    0.000    0.657    0.000 lines.py:1337(update_from)
+     6150    0.076    0.000    0.601    0.000 lines.py:743(draw)
+171991/2947    0.254    0.000    0.579    0.000 copy.py:119(deepcopy)
+11794/2947    0.068    0.000    0.569    0.000 copy.py:218(_deepcopy_dict)
+   445367    0.221    0.000    0.544    0.000 __init__.py:745(__getitem__)
+      492    0.012    0.000    0.527    0.001 spines.py:142(get_window_extent)
+678713/674963    0.248    0.000    0.500    0.000 {built-in method builtins.getattr}
+112895/105023    0.075    0.000    0.486    0.000 {built-in method builtins.next}
+     1476    0.006    0.000    0.456    0.000 ticker.py:2169(__call__)
+        1    0.000    0.000    0.430    0.430 pyplot.py:1(<module>)
+   120822    0.073    0.000    0.427    0.000 artist.py:415(pchanged)
+     1476    0.006    0.000    0.417    0.000 ticker.py:2173(tick_values)
+635174/558409    0.225    0.000    0.417    0.000 artist.py:316(stale)
+     1476    0.028    0.000    0.416    0.000 axis.py:1533(get_minorticklocs)
+     5706    0.111    0.000    0.412    0.000 lines.py:671(recache)
+    95999    0.182    0.000    0.407    0.000 copy.py:62(copy)
+     7740    0.030    0.000    0.407    0.000 text.py:194(update)
+123710/123210    0.197    0.000    0.406    0.000 cbook.py:285(process)
+1685/1562    0.226    0.000    0.404    0.000 {method 'call' of '_tkinter.tkapp' objects}
+    34305    0.091    0.000    0.396    0.000 copy.py:248(_reconstruct)
+     1476    0.053    0.000    0.378    0.000 ticker.py:2100(_raw_ticks)
+     1968    0.020    0.000    0.368    0.000 backend_agg.py:186(draw_text)
+    11808    0.034    0.000    0.361    0.000 text.py:65(_get_text_metrics_with_cache)
+     8748    0.022    0.000    0.324    0.000 text.py:1306(set_fontproperties)
+   445688    0.183    0.000    0.323    0.000 __init__.py:694(_get)
+    25004    0.021    0.000    0.323    0.000 font_manager.py:906(copy)
+55010/53042    0.041    0.000    0.320    0.000 contextlib.py:136(__enter__)
+     2952    0.015    0.000    0.312    0.000 ticker.py:214(format_ticks)
+    18478    0.048    0.000    0.312    0.000 transforms.py:814(from_extents)
+1439/1343    0.017    0.000    0.308    0.000 {built-in method builtins.__build_class__}
+      125    0.001    0.000    0.308    0.002 pyplot.py:3884(scatter)
+      125    0.002    0.000    0.302    0.002 __init__.py:1470(inner)
+   983310    0.215    0.000    0.301    0.000 {built-in method builtins.isinstance}
+     8487    0.029    0.000    0.297    0.000 transforms.py:1482(transform)
+     7740    0.007    0.000    0.296    0.000 artist.py:1198(update)
+      125    0.007    0.000    0.296    0.002 _axes.py:4639(scatter)
+    36018    0.222    0.000    0.290    0.000 cbook.py:1795(normalize_kwargs)
+    11832    0.020    0.000    0.283    0.000 patches.py:924(get_bbox)
+     3738    0.006    0.000    0.275    0.000 lines.py:1034(get_path)
+      529    0.004    0.000    0.272    0.001 <frozen importlib._bootstrap_external>:1089(get_code)
+12094/11344    0.013    0.000    0.272    0.000 _base.py:850(viewLim)
+12465/11715    0.053    0.000    0.266    0.000 _base.py:836(_unstale_viewLim)
+    34602    0.029    0.000    0.264    0.000 transforms.py:1350(__add__)
+55010/53042    0.045    0.000    0.262    0.000 contextlib.py:145(__exit__)
+    74276    0.261    0.000    0.261    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+1254/1004    0.020    0.000    0.259    0.000 axis.py:1215(_set_lim)
+   102568    0.171    0.000    0.256    0.000 cbook.py:2063(_setattr_cm)
+     1476    0.007    0.000    0.250    0.000 ticker.py:721(set_locs)
+    37163    0.046    0.000    0.244    0.000 artist.py:103(_stale_axes_callback)
+103813/102749    0.034    0.000    0.241    0.000 {built-in method builtins.hasattr}
+    42116    0.109    0.000    0.235    0.000 transforms.py:759(__init__)
+    22335    0.115    0.000    0.232    0.000 artist.py:180(__init__)
+      123    0.000    0.000    0.230    0.002 collections.py:1002(draw)
+     1476    0.004    0.000    0.229    0.000 axis.py:1529(get_majorticklocs)
+    34626    0.050    0.000    0.229    0.000 transforms.py:2517(composite_transform_factory)
+    27467    0.049    0.000    0.225    0.000 fromnumeric.py:51(_wrapfunc)
+      123    0.003    0.000    0.224    0.002 collections.py:349(draw)
+    10224    0.046    0.000    0.224    0.000 font_manager.py:602(__init__)
+      103    0.003    0.000    0.223    0.002 artist.py:159(_update_set_signature_and_docstring)
+      102    0.000    0.000    0.220    0.002 artist.py:126(__init_subclass__)
+   241842    0.159    0.000    0.219    0.000 __init__.py:99(check_in_list)
+     8487    0.011    0.000    0.213    0.000 transforms.py:2425(transform_affine)
+    67411    0.195    0.000    0.211    0.000 transforms.py:182(set_children)
+    21178    0.031    0.000    0.202    0.000 lines.py:647(set_data)
+     1353    0.007    0.000    0.198    0.000 patches.py:623(draw)
+    42850    0.129    0.000    0.193    0.000 font_manager.py:645(__hash__)
+        1    0.000    0.000    0.193    0.193 colorbar.py:1(<module>)
+     1230    0.016    0.000    0.193    0.000 transforms.py:651(union)
+        1    0.000    0.000    0.192    0.192 figure.py:1(<module>)
+    41506    0.074    0.000    0.187    0.000 transforms.py:1899(__init__)
+      123    0.001    0.000    0.184    0.001 backend_tkagg.py:13(blit)
+      123    0.001    0.000    0.183    0.001 _backend_tk.py:70(blit)
+      504    0.003    0.000    0.180    0.000 axis.py:780(_set_scale)
+      123    0.001    0.000    0.180    0.001 _backend_tk.py:56(_blit)
+      123    0.177    0.001    0.177    0.001 {built-in method matplotlib.backends._tkagg.blit}
+    10729    0.012    0.000    0.177    0.000 font_manager.py:622(_from_any)
+11808/9225    0.078    0.000    0.176    0.000 transforms.py:2450(get_affine)
+      504    0.005    0.000    0.174    0.000 scale.py:103(set_default_locators_and_formatters)
+    18478    0.018    0.000    0.173    0.000 fromnumeric.py:215(reshape)
+      125    0.001    0.000    0.173    0.001 pyplot.py:567(show)
+     3936    0.010    0.000    0.173    0.000 artist.py:1226(_cm_set)
+   775515    0.173    0.000    0.173    0.000 {method 'get' of 'dict' objects}
+      529    0.002    0.000    0.172    0.000 <frozen importlib._bootstrap_external>:1210(get_data)
+      125    0.001    0.000    0.170    0.001 backend_bases.py:3526(show)
+     6976    0.014    0.000    0.170    0.000 lines.py:1188(set_marker)
+      114    0.000    0.000    0.169    0.001 artist.py:1839(kwdoc)
+      125    0.002    0.000    0.169    0.001 _backend_tk.py:545(show)
+    55162    0.104    0.000    0.169    0.000 __init__.py:64(check_isinstance)
+    96103    0.122    0.000    0.167    0.000 transforms.py:1779(__init__)
+    39602    0.022    0.000    0.166    0.000 figure.py:65(_stale_figure_callback)
+      250    0.001    0.000    0.165    0.001 pyplot.py:3786(plot)
+      250    0.002    0.000    0.161    0.001 _axes.py:1534(plot)
+    33126    0.062    0.000    0.160    0.000 transforms.py:2358(__init__)
+      123    0.137    0.001    0.160    0.001 {method 'draw_path_collection' of 'matplotlib.backends._backend_agg.RendererAgg' objects}
+     7880    0.010    0.000    0.159    0.000 axis.py:2310(getter)
+     2946    0.004    0.000    0.159    0.000 path.py:279(__deepcopy__)
+    11835    0.032    0.000    0.158    0.000 transforms.py:2594(__init__)
+      250    0.001    0.000    0.157    0.001 __init__.py:2133(wm_attributes)
+   609484    0.156    0.000    0.156    0.000 {method 'items' of 'dict' objects}
+    17815    0.038    0.000    0.155    0.000 markers.py:250(_recache)
+    22382    0.016    0.000    0.154    0.000 transforms.py:1792(transform)
+    36739    0.059    0.000    0.148    0.000 lines.py:1275(set_xdata)
+    14279    0.012    0.000    0.148    0.000 font_manager.py:656(__eq__)
+    20081    0.071    0.000    0.148    0.000 fromnumeric.py:41(_wrapit)
+    20474    0.024    0.000    0.144    0.000 colors.py:240(_check_color_like)
+1754/1254    0.004    0.000    0.144    0.000 axis.py:2314(setter)
+      114    0.004    0.000    0.144    0.001 artist.py:1600(pprint_setters)
+72643/43963    0.031    0.000    0.144    0.000 {built-in method builtins.hash}
+     1980    0.009    0.000    0.141    0.000 backend_agg.py:249(_prepare_font)
+    55014    0.051    0.000    0.141    0.000 contextlib.py:303(helper)
+   445693    0.140    0.000    0.140    0.000 {function RcParams.__getitem__ at 0x0000020CD9EEFE20}
+      504    0.002    0.000    0.138    0.000 _base.py:3229(grid)
+        1    0.000    0.000    0.137    0.137 _support_alternative_backends.py:1(<module>)
+      246    0.010    0.000    0.137    0.001 _base.py:3005(_update_title_position)
+        1    0.000    0.000    0.136    0.136 _array_api.py:1(<module>)
+     1008    0.004    0.000    0.135    0.000 axis.py:1702(grid)
+      529    0.135    0.000    0.135    0.000 {built-in method _io.open_code}
+      644    0.004    0.000    0.135    0.000 <frozen importlib._bootstrap>:1240(_find_spec)
+    36616    0.052    0.000    0.133    0.000 colors.py:275(to_rgba)
+    25602    0.040    0.000    0.131    0.000 fromnumeric.py:69(_wrapreduction)
+    17736    0.024    0.000    0.131    0.000 transforms.py:2008(rotate_deg)
+     1980    0.131    0.000    0.131    0.000 {method 'set_text' of 'matplotlib.ft2font.FT2Font' objects}
+       10    0.000    0.000    0.129    0.013 __init__.py:339(__getattr__)
+      251    0.001    0.000    0.129    0.001 pyplot.py:870(figure)
+     6644    0.009    0.000    0.129    0.000 transforms.py:805(from_bounds)
+        1    0.000    0.000    0.128    0.128 pyplot.py:547(new_figure_manager)
+  375/250    0.001    0.000    0.127    0.001 _base.py:3663(set_xlim)
+    20886    0.023    0.000    0.127    0.000 colors.py:221(is_color_like)
+      623    0.001    0.000    0.125    0.000 <frozen importlib._bootstrap_external>:1547(find_spec)
+      623    0.002    0.000    0.124    0.000 <frozen importlib._bootstrap_external>:1518(_get_spec)
+     1016    0.006    0.000    0.124    0.000 axis.py:970(set_tick_params)
+    33793    0.050    0.000    0.123    0.000 lines.py:1294(set_ydata)
+     1353    0.020    0.000    0.123    0.000 patches.py:574(_draw_paths_with_artist_properties)
+    22874    0.032    0.000    0.122    0.000 transforms.py:1859(transform_affine)
+        1    0.000    0.000    0.122    0.122 contour.py:1(<module>)
+     5187    0.016    0.000    0.121    0.000 axis.py:433(update_position)
+      984    0.003    0.000    0.121    0.000 spines.py:292(draw)
+    16/14    0.000    0.000    0.120    0.009 __init__.py:71(import_module)
+    16/14    0.000    0.000    0.120    0.009 <frozen importlib._bootstrap>:1375(_gcd_import)
+    77637    0.044    0.000    0.119    0.000 transforms.py:158(invalidate)
+      738    0.009    0.000    0.117    0.000 axis.py:2559(get_tick_space)
+    32734    0.082    0.000    0.117    0.000 transforms.py:2053(scale)
+     4144    0.009    0.000    0.117    0.000 artist.py:1469(get_valid_values)
+        1    0.000    0.000    0.115    0.115 backend_bases.py:1(<module>)
+     6602    0.018    0.000    0.115    0.000 path.py:99(__init__)
+      996    0.007    0.000    0.115    0.000 <frozen importlib._bootstrap_external>:1620(find_spec)
+      492    0.008    0.000    0.114    0.000 _base.py:1874(apply_aspect)
+     1476    0.039    0.000    0.114    0.000 ticker.py:803(_set_format)
+    13423    0.018    0.000    0.114    0.000 transforms.py:795(unit)
+    30170    0.031    0.000    0.111    0.000 cbook.py:924(get_siblings)
+      738    0.009    0.000    0.111    0.000 axis.py:2802(get_tick_space)
+    20856    0.024    0.000    0.110    0.000 artist.py:436(set_transform)
+    39603    0.029    0.000    0.109    0.000 pyplot.py:1059(_auto_draw_if_interactive)
+        1    0.000    0.000    0.108    0.108 rcsetup.py:1(<module>)
+   134619    0.106    0.000    0.106    0.000 {method 'copy' of 'numpy.ndarray' objects}
+    22334    0.026    0.000    0.105    0.000 artist.py:727(set_figure)
+     1980    0.010    0.000    0.104    0.000 font_manager.py:1308(_find_fonts_by_props)
+     1866    0.007    0.000    0.103    0.000 axis.py:422(_apply_tickdir)
+     9760    0.025    0.000    0.103    0.000 text.py:985(set_color)
+    17736    0.054    0.000    0.102    0.000 transforms.py:1985(rotate)
+    32142    0.049    0.000    0.102    0.000 lines.py:1202(_set_markercolor)
+    11456    0.033    0.000    0.100    0.000 transforms.py:1097(__init__)
+     4205    0.013    0.000    0.100    0.000 axis.py:494(update_position)
+        1    0.000    0.000    0.100    0.100 backend_bases.py:3500(new_figure_manager)
+   101572    0.099    0.000    0.099    0.000 {built-in method numpy.asarray}
+        1    0.000    0.000    0.097    0.097 backend_bases.py:3509(new_figure_manager_given_figure)
+        1    0.000    0.000    0.097    0.097 backend_bases.py:1786(new_manager)
+        1    0.000    0.000    0.097    0.097 _backend_tk.py:476(create_with_canvas)
+     1052    0.009    0.000    0.097    0.000 axis.py:329(_apply_params)
+    10714    0.046    0.000    0.097    0.000 lines.py:1143(set_linestyle)
+        1    0.000    0.000    0.096    0.096 text.py:1(<module>)
+     1476    0.056    0.000    0.095    0.000 numeric.py:2349(isclose)
+
+
+      376    0.006    0.000    0.094    0.000 sph.py:116(getDensity)
+
+
+    10714    0.013    0.000    0.094    0.000 lines.py:1058(set_color)
+     1599    0.004    0.000    0.094    0.000 backend_agg.py:94(draw_path)
+     2396    0.001    0.000    0.091    0.000 <frozen importlib._bootstrap_external>:145(_path_stat)
+     2484    0.017    0.000    0.091    0.000 font_manager.py:1238(findfont)
+     2401    0.091    0.000    0.091    0.000 {built-in method nt.stat}
+     7178    0.051    0.000    0.090    0.000 inspect.py:891(cleandoc)
+    55014    0.075    0.000    0.090    0.000 contextlib.py:108(__init__)
+    57502    0.046    0.000    0.089    0.000 colors.py:216(_is_nth_color)
+     1622    0.006    0.000    0.089    0.000 axis.py:483(_apply_tickdir)
+    17440    0.011    0.000    0.088    0.000 axis.py:320(_set_artist_props)
+      125    0.003    0.000    0.088    0.001 _base.py:2281(add_collection)
+    21410    0.015    0.000    0.088    0.000 {method 'max' of 'numpy.ndarray' objects}
+      250    0.007    0.000    0.087    0.000 _base.py:2877(autoscale_view)
+     1599    0.066    0.000    0.087    0.000 {method 'draw_path' of 'matplotlib.backends._backend_agg.RendererAgg' objects}
+    63608    0.028    0.000    0.087    0.000 <frozen abc>:117(__instancecheck__)
+     5658    0.007    0.000    0.086    0.000 backend_bases.py:635(new_gc)
+      504    0.003    0.000    0.084    0.000 ticker.py:447(__init__)
+     1968    0.014    0.000    0.083    0.000 transforms.py:463(transformed)
+
+
+      126    0.013    0.000    0.082    0.001 sph.py:149(getAcc)
+
+
+   186289    0.082    0.000    0.082    0.000 transforms.py:113(__init__)
+    14030    0.013    0.000    0.080    0.000 {method 'min' of 'numpy.ndarray' objects}
+    39606    0.020    0.000    0.080    0.000 __init__.py:1291(is_interactive)
+      500    0.002    0.000    0.079    0.000 _base.py:226(__call__)
+     5658    0.023    0.000    0.079    0.000 backend_bases.py:711(__init__)
+     1968    0.069    0.000    0.079    0.000 {method 'draw_markers' of 'matplotlib.backends._backend_agg.RendererAgg' objects}
+     7113    0.004    0.000    0.078    0.000 inspect.py:872(getdoc)
+        1    0.000    0.000    0.078    0.078 _orthogonal.py:1(<module>)
+      3/1    0.000    0.000    0.077    0.077 __init__.py:145(__getattr__)
+      504    0.006    0.000    0.077    0.000 ticker.py:559(set_useMathText)
+     5892    0.033    0.000    0.077    0.000 artist.py:1152(update_from)
+      123    0.003    0.000    0.076    0.001 figure.py:156(_get_draw_artists)
+    22874    0.076    0.000    0.076    0.000 {built-in method matplotlib._path.affine_transform}
+    12300    0.013    0.000    0.075    0.000 fromnumeric.py:3225(min)
+      250    0.003    0.000    0.075    0.000 _base.py:2330(add_line)
+     1476    0.020    0.000    0.074    0.000 ticker.py:730(_compute_offset)
+93539/77637    0.057    0.000    0.074    0.000 transforms.py:167(_invalidate_internal)
+      250    0.005    0.000    0.073    0.000 _base.py:388(_plot_args)
+    12085    0.026    0.000    0.073    0.000 patches.py:782(_convert_units)
+    21410    0.009    0.000    0.073    0.000 _methods.py:43(_amax)
+    18216    0.045    0.000    0.072    0.000 font_manager.py:821(set_size)
+     1601    0.010    0.000    0.072    0.000 transforms.py:1428(__sub__)
+    12548    0.012    0.000    0.072    0.000 fromnumeric.py:3080(max)
+     6770    0.005    0.000    0.071    0.000 __init__.py:330(_compile)
+    48125    0.043    0.000    0.070    0.000 {built-in method builtins.any}
+      500    0.007    0.000    0.070    0.000 _base.py:2936(handle_single_axis)
+  623/611    0.001    0.000    0.069    0.000 <frozen importlib._bootstrap>:806(module_from_spec)
+    14030    0.008    0.000    0.068    0.000 _methods.py:47(_amin)
+      529    0.010    0.000    0.067    0.000 <frozen importlib._bootstrap_external>:778(_compile_bytecode)
+   101105    0.043    0.000    0.066    0.000 _function_base_impl.py:346(iterable)
+     6120    0.050    0.000    0.066    0.000 _shape_base_impl.py:633(column_stack)
+        1    0.000    0.000    0.066    0.066 _axes.py:1(<module>)
+    68525    0.044    0.000    0.065    0.000 enum.py:691(__call__)
+      500    0.004    0.000    0.065    0.000 cbook.py:732(safe_masked_invalid)
+    40799    0.037    0.000    0.064    0.000 {built-in method builtins.sorted}
+   110384    0.035    0.000    0.064    0.000 transforms.py:198(<lambda>)
+     2946    0.004    0.000    0.063    0.000 copy.py:226(_deepcopy_method)
+      293    0.001    0.000    0.062    0.000 _compiler.py:738(compile)
+   253176    0.062    0.000    0.062    0.000 {method 'append' of 'list' objects}
+     8748    0.014    0.000    0.061    0.000 text.py:1030(set_linespacing)
+    10714    0.012    0.000    0.061    0.000 lines.py:737(set_transform)
+     1866    0.003    0.000    0.061    0.000 axis.py:416(_get_text1_transform)
+        1    0.000    0.000    0.061    0.061 collections.py:1(<module>)
+        1    0.000    0.000    0.061    0.061 colors.py:1(<module>)
+     1964    0.006    0.000    0.060    0.000 text.py:342(update_from)
+        2    0.000    0.000    0.060    0.030 __config__.py:1(<module>)
+     5706    0.024    0.000    0.060    0.000 _stride_tricks_impl.py:495(broadcast_arrays)
+    23664    0.029    0.000    0.059    0.000 transforms.py:2040(translate)
+    10714    0.009    0.000    0.059    0.000 lines.py:1226(set_markerfacecolor)
+      218    0.000    0.000    0.059    0.000 artist.py:1421(__init__)
+    63608    0.037    0.000    0.058    0.000 {built-in method _abc._abc_instancecheck}
+    20761    0.023    0.000    0.058    0.000 markers.py:275(_set_fillstyle)
+      218    0.020    0.000    0.058    0.000 artist.py:1441(get_aliases)
+    60340    0.042    0.000    0.058    0.000 weakref.py:451(get)
+     1629    0.010    0.000    0.058    0.000 _base.py:2546(_process_unit_info)
+     3230    0.029    0.000    0.057    0.000 transforms.py:2834(nonsingular)
+     7992    0.010    0.000    0.057    0.000 text.py:1098(set_fontsize)
+      529    0.056    0.000    0.056    0.000 {built-in method marshal.loads}
+    96212    0.037    0.000    0.056    0.000 {built-in method builtins.setattr}
+     2004    0.002    0.000    0.055    0.000 axis.py:1744(update_units)
+     1476    0.016    0.000    0.054    0.000 ticker.py:769(_set_order_of_magnitude)
+      125    0.002    0.000    0.054    0.000 collections.py:239(get_datalim)
+        1    0.000    0.000    0.054    0.054 __init__.py:2439(__init__)
+     1476    0.007    0.000    0.054    0.000 axis.py:1600(_get_tick_label_size)
+     1866    0.009    0.000    0.054    0.000 _base.py:940(get_xaxis_text1_transform)
+      254    0.003    0.000    0.054    0.000 axis.py:2343(_init)
+        1    0.053    0.053    0.053    0.053 {built-in method _tkinter.create}
+      375    0.001    0.000    0.053    0.000 _base.py:3897(set_ylim)
+    18545    0.015    0.000    0.053    0.000 artist.py:1040(set_visible)
+     3492    0.014    0.000    0.053    0.000 core.py:3039(__array_finalize__)
+        1    0.000    0.000    0.053    0.053 f2py2e.py:1(<module>)
+4008/2004    0.018    0.000    0.053    0.000 units.py:164(get_converter)
+    70/69    0.000    0.000    0.053    0.001 <frozen importlib._bootstrap_external>:1314(create_module)
+      500    0.001    0.000    0.052    0.000 _base.py:527(<genexpr>)
+     1866    0.005    0.000    0.052    0.000 axis.py:419(_get_text2_transform)
+6103/5852    0.005    0.000    0.052    0.000 {method 'view' of 'numpy.ndarray' objects}
+    70/69    0.044    0.001    0.052    0.001 {built-in method _imp.create_dynamic}
+
+
+      376    0.052    0.000    0.052    0.000 sph.py:50(W)  - not that impactful
+
+
+     1622    0.003    0.000    0.052    0.000 axis.py:477(_get_text1_transform)
+      250    0.001    0.000    0.051    0.000 _base.py:332(_makeline)
+      254    0.003    0.000    0.051    0.000 axis.py:2581(_init)
+    39745    0.045    0.000    0.051    0.000 {built-in method numpy.array}
+      123    0.001    0.000    0.051    0.000 collections.py:894(update_scalarmappable)
+    36511    0.018    0.000    0.051    0.000 artist.py:269(convert_xunits)
+    34305    0.043    0.000    0.051    0.000 {method '__reduce_ex__' of 'object' objects}
+        1    0.000    0.000    0.050    0.050 _sketches.py:1(<module>)
+3945/3820    0.016    0.000    0.050    0.000 transforms.py:1787(__eq__)
+      125    0.003    0.000    0.049    0.000 cbook.py:1041(_combine_masks)
+     6855    0.023    0.000    0.049    0.000 __init__.py:132(check_shape)
+    23664    0.020    0.000    0.049    0.000 cbook.py:1390(_to_unmasked_float_array)
+      123    0.001    0.000    0.048    0.000 cm.py:354(to_rgba)
+     5658    0.006    0.000    0.048    0.000 artist.py:920(_set_gc_clip)
+      625    0.004    0.000    0.046    0.000 core.py:1871(masked_where)
+        1    0.000    0.000    0.046    0.046 patches.py:1(<module>)
+   296332    0.046    0.000    0.046    0.000 {built-in method builtins.id}
+     5904    0.017    0.000    0.046    0.000 ticker.py:594(__call__)
+     1622    0.008    0.000    0.046    0.000 _base.py:1020(get_yaxis_text1_transform)
+        3    0.000    0.000    0.045    0.015 _base.py:1(<module>)
+      504    0.002    0.000    0.045    0.000 ticker.py:2865(__init__)
+   175858    0.045    0.000    0.045    0.000 {method 'values' of 'dict' objects}
+     1866    0.006    0.000    0.045    0.000 _base.py:966(get_xaxis_text2_transform)
+     1622    0.003    0.000    0.044    0.000 axis.py:480(_get_text2_transform)
+      246    0.002    0.000    0.044    0.000 axis.py:2443(_update_offset_text_position)
+      132    0.000    0.000    0.044    0.000 __init__.py:287(compile)
+     1602    0.004    0.000    0.044    0.000 fromnumeric.py:2250(clip)
+      250    0.001    0.000    0.043    0.000 pyplot.py:1346(sca)
+   223645    0.043    0.000    0.043    0.000 artist.py:293(axes)
+    19180    0.018    0.000    0.043    0.000 font_manager.py:729(set_family)
+      125    0.001    0.000    0.043    0.000 collections.py:1013(__init__)
+    16740    0.022    0.000    0.043    0.000 text.py:1249(set_verticalalignment)
+      504    0.002    0.000    0.043    0.000 ticker.py:1997(__init__)
+     5535    0.010    0.000    0.042    0.000 transforms.py:317(ymax)
+297487/294182    0.041    0.000    0.042    0.000 {built-in method builtins.len}
+     7228    0.015    0.000    0.042    0.000 transforms.py:2685(__init__)
+     5658    0.008    0.000    0.041    0.000 backend_bases.py:879(set_clip_path)
+    22460    0.016    0.000    0.041    0.000 lines.py:75(_scale_dashes)
+     1968    0.003    0.000    0.041    0.000 transforms.py:2776(get_transformed_points_and_affine)
+      254    0.001    0.000    0.041    0.000 figure.py:1640(sca)
+    36509    0.015    0.000    0.041    0.000 artist.py:281(convert_yunits)
+     7872    0.018    0.000    0.040    0.000 text.py:1282(_preprocess_math)
+      504    0.004    0.000    0.040    0.000 ticker.py:2057(set_params)
+      738    0.002    0.000    0.040    0.000 text.py:239(_get_xy_display)
+    37661    0.040    0.000    0.040    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+        1    0.000    0.000    0.040    0.040 axes3d.py:1(<module>)
+    18711    0.026    0.000    0.040    0.000 cbook.py:1377(is_math_text)
+      492    0.002    0.000    0.039    0.000 patches.py:644(get_window_extent)
+      218    0.012    0.000    0.039    0.000 artist.py:1519(get_setters)
+      125    0.002    0.000    0.039    0.000 collections.py:77(__init__)
+        1    0.000    0.000    0.039    0.039 _fontconfig_pattern.py:1(<module>)
+     3936    0.021    0.000    0.039    0.000 transforms.py:626(translated)
+     1241    0.008    0.000    0.039    0.000 core.py:2868(__new__)
+     2214    0.007    0.000    0.039    0.000 transforms.py:2763(_revalidate)
+     5289    0.009    0.000    0.039    0.000 transforms.py:307(ymin)
+    10224    0.015    0.000    0.038    0.000 font_manager.py:743(set_style)
+     4867    0.023    0.000    0.038    0.000 core.py:3013(_update_from)
+     1622    0.005    0.000    0.038    0.000 _base.py:1046(get_yaxis_text2_transform)
+      254    0.000    0.000    0.038    0.000 figure.py:3237(<lambda>)
+      254    0.000    0.000    0.038    0.000 backend_bases.py:2667(notify_axes_change)
+      293    0.001    0.000    0.037    0.000 _parser.py:970(parse)
+      254    0.001    0.000    0.037    0.000 backend_bases.py:3264(update)
+        1    0.000    0.000    0.037    0.037 crackfortran.py:1(<module>)
+    10714    0.016    0.000    0.037    0.000 lines.py:1128(set_linewidth)
+56772/56602    0.037    0.000    0.037    0.000 {method 'update' of 'dict' objects}
+
+
+      502    0.035    0.000    0.037    0.000 sph.py:87(getPairwiseSeparations) - not that impactful
+
+
+    34305    0.025    0.000    0.037    0.000 copyreg.py:98(__newobj__)
+      255    0.001    0.000    0.037    0.000 _backend_tk.py:888(set_history_buttons)
+    16740    0.019    0.000    0.037    0.000 text.py:1000(set_horizontalalignment)
+   136125    0.036    0.000    0.036    0.000 {method 'pop' of 'dict' objects}
+     4551    0.008    0.000    0.036    0.000 transforms.py:302(xmin)
+      492    0.005    0.000    0.036    0.000 _base.py:1860(get_data_ratio)
+  925/293    0.002    0.000    0.036    0.000 _parser.py:451(_parse_sub)
+     9348    0.006    0.000    0.036    0.000 transforms.py:2265(get_affine)
+    57997    0.035    0.000    0.035    0.000 {method 'match' of 're.Pattern' objects}
+      519    0.000    0.000    0.035    0.000 __init__.py:1815(configure)
+ 1140/319    0.014    0.000    0.035    0.000 _parser.py:511(_parse)
+    27960    0.011    0.000    0.035    0.000 __init__.py:1303(_val_or_rc)
+    10714    0.019    0.000    0.035    0.000 lines.py:1408(set_dash_capstyle)
+     1968    0.030    0.000    0.035    0.000 {method 'draw_text_image' of 'matplotlib.backends._backend_agg.RendererAgg' objects}
+      510    0.001    0.000    0.034    0.000 __init__.py:1832(__setitem__)
+        3    0.001    0.000    0.034    0.011 core.py:1(<module>)
+      519    0.002    0.000    0.034    0.000 __init__.py:1802(_configure)
+    31434    0.023    0.000    0.034    0.000 copy.py:232(_keep_alive)
+     1000    0.005    0.000    0.034    0.000 core.py:3132(__array_wrap__)
+     5571    0.003    0.000    0.034    0.000 __init__.py:174(search)
+     1735    0.006    0.000    0.034    0.000 transforms.py:1118(get_points)
+     1476    0.008    0.000    0.034    0.000 spines.py:234(_adjust_location)
+66548/66064    0.029    0.000    0.034    0.000 {built-in method __new__ of type object at 0x00007FFB5CF708A0}
+       30    0.004    0.000    0.034    0.001 __init__.py:851(_rc_params_in_file)
+     3613    0.008    0.000    0.034    0.000 artist.py:998(set_alpha)
+    10714    0.006    0.000    0.034    0.000 lines.py:1216(set_markeredgecolor)
+     3444    0.008    0.000    0.034    0.000 transforms.py:1622(transform_path_non_affine)
+     4793    0.023    0.000    0.033    0.000 <frozen importlib._bootstrap_external>:101(_path_join)
+     9002    0.016    0.000    0.033    0.000 text.py:1217(set_rotation)
+     2214    0.003    0.000    0.033    0.000 lines.py:731(_get_transformed_path)
+     6602    0.012    0.000    0.033    0.000 path.py:202(_update_values)
+      492    0.004    0.000    0.033    0.000 path.py:607(get_extents)
+        3    0.000    0.000    0.032    0.011 utils.py:1(<module>)
+     4367    0.009    0.000    0.032    0.000 transforms.py:1843(frozen)
+     4551    0.007    0.000    0.032    0.000 transforms.py:312(xmax)
+    10224    0.012    0.000    0.032    0.000 font_manager.py:756(set_variant)
+        1    0.000    0.000    0.032    0.032 _index_tricks_impl.py:1(<module>)
+    23472    0.031    0.000    0.031    0.000 cbook.py:181(__init__)
+     5904    0.005    0.000    0.031    0.000 fromnumeric.py:3666(round)
+        1    0.000    0.000    0.031    0.031 Image.py:1(<module>)
+        9    0.000    0.000    0.031    0.003 _base.py:732(__init_subclass__)
+    10714    0.006    0.000    0.031    0.000 lines.py:1236(set_markerfacecoloralt)
+     5706    0.029    0.000    0.031    0.000 _stride_tricks_impl.py:427(_broadcast_shape)
+     4674    0.009    0.000    0.030    0.000 text.py:893(get_unitless_position)
+     2212    0.005    0.000    0.030    0.000 lines.py:716(_transform_path)
+     7113    0.009    0.000    0.030    0.000 artist.py:1109(set_zorder)
+      125    0.001    0.000    0.030    0.000 cm.py:434(set_array)
+      809    0.001    0.000    0.030    0.000 <frozen importlib._bootstrap_external>:155(_path_is_mode_type)
+      250    0.002    0.000    0.030    0.000 _base.py:2358(_update_line_limits)
+      664    0.030    0.000    0.030    0.000 {method 'read' of '_io.BufferedReader' objects}
+      252    0.001    0.000    0.030    0.000 _base.py:1184(_gen_axes_patch)
+        2    0.000    0.000    0.030    0.015 pyplot.py:1365(subplot)
+        2    0.000    0.000    0.030    0.015 figure.py:586(add_subplot)
+      126    0.001    0.000    0.030    0.000 pyplot.py:524(_warn_if_gui_out_of_main_thread)
+      253    0.002    0.000    0.029    0.000 patches.py:738(__init__)
+        1    0.000    0.000    0.029    0.029 platform.py:1102(machine)
+        1    0.000    0.000    0.029    0.029 platform.py:967(uname)
+        2    0.000    0.000    0.029    0.015 _base.py:564(__init__)
+        2    0.000    0.000    0.029    0.015 platform.py:321(_wmi_query)
+        2    0.029    0.015    0.029    0.015 {built-in method _wmi.exec_query}
+      504    0.009    0.000    0.029    0.000 ticker.py:2036(_validate_steps)
+      745    0.001    0.000    0.028    0.000 <frozen importlib._bootstrap_external>:164(_path_isfile)
+      253    0.001    0.000    0.028    0.000 pyplot.py:348(_get_backend_mod)
+      6/1    0.000    0.000    0.028    0.028 pyplot.py:362(switch_backend)
+    10714    0.016    0.000    0.028    0.000 lines.py:1070(set_drawstyle)
+        5    0.000    0.000    0.027    0.005 registry.py:308(load_backend_module)
+    20826    0.011    0.000    0.027    0.000 text.py:1195(set_x)
+    14904    0.011    0.000    0.027    0.000 font_manager.py:1294(<genexpr>)
+        1    0.000    0.000    0.027    0.027 defmatrix.py:1(<module>)
+      777    0.000    0.000    0.027    0.000 inspect.py:3338(signature)
+     5904    0.010    0.000    0.027    0.000 ticker.py:536(_format_maybe_minus_and_locale)
+      261    0.003    0.000    0.026    0.000 patches.py:48(__init__)
+     1602    0.003    0.000    0.026    0.000 {method 'clip' of 'numpy.ndarray' objects}
+      777    0.000    0.000    0.026    0.000 inspect.py:3062(from_callable)
+     1866    0.005    0.000    0.026    0.000 markers.py:776(_set_tickdown)
+        1    0.000    0.000    0.026    0.026 _laplacian.py:1(<module>)
+      123    0.003    0.000    0.026    0.000 colors.py:1364(__call__)
+  915/778    0.004    0.000    0.026    0.000 inspect.py:2473(_signature_from_callable)
+     6976    0.007    0.000    0.026    0.000 text.py:1044(set_fontfamily)
+     5904    0.026    0.000    0.026    0.000 transforms.py:2914(_interval_contains_close)
+      125    0.001    0.000    0.026    0.000 _base.py:3588(set_xbound)
+      369    0.000    0.000    0.026    0.000 transforms.py:239(__array__)
+     9118    0.006    0.000    0.026    0.000 axis.py:772(get_transform)
+     2460    0.003    0.000    0.025    0.000 text.py:1184(set_position)
+     4984    0.004    0.000    0.025    0.000 axis.py:1802(convert_units)
+    17676    0.006    0.000    0.025    0.000 copy.py:253(<genexpr>)
+      252    0.001    0.000    0.025    0.000 _base.py:1072(_update_transScale)
+     2758    0.005    0.000    0.025    0.000 axis.py:720(_get_shared_axes)
+        2    0.000    0.000    0.025    0.012 _linalg.py:1(<module>)
+    10714    0.007    0.000    0.025    0.000 lines.py:505(set_pickradius)
+    10594    0.009    0.000    0.025    0.000 scale.py:115(get_transform)
+     4327    0.005    0.000    0.025    0.000 {method 'all' of 'numpy.ndarray' objects}
+     2508    0.008    0.000    0.025    0.000 _base.py:3644(_validate_converted_limits)
+
+
+
+kernprof 
+Whole process took 19.896259307861328 seconds
+
+
+
+Line profiler for N = 100
+
+Total time: 0.0535692 s
+File: sph.py
+Function: W at line 49
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    49                                           @profile
+    50                                           def W( x, y, z, h ):
+    51                                                  """
+    52                                               Gausssian Smoothing kernel (3D)
+    53                                                  x     is a vector/matrix of x positions
+    54                                                  y     is a vector/matrix of y positions
+    55                                                  z     is a vector/matrix of z positions
+    56                                                  h     is the smoothing length
+    57                                                  w     is the evaluated smoothing function
+    58                                                  """
+    59
+    60       376      16061.4     42.7     30.0         r = np.sqrt(x**2 + y**2 + z**2)
+    61
+    62       376      37144.1     98.8     69.3         w = (1.0 / (h*np.sqrt(np.pi)))**3 * np.exp( -r**2 / h**2)
+    63
+    64       376        363.7      1.0      0.7         return w
+
+Here, most time took these two functions:
+
+
+    60       376      16061.4     42.7     30.0         r = np.sqrt(x**2 + y**2 + z**2)
+    62       376      37144.1     98.8     69.3         w = (1.0 / (h*np.sqrt(np.pi)))**3 * np.exp( -r**2 / h**2)
+
+
+
+
+
+
+Total time: 0.0213437 s
+File: sph.py
+Function: gradW at line 66
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    66                                           @profile
+    67                                           def gradW( x, y, z, h ):
+    68                                                  """
+    69                                                  Gradient of the Gausssian Smoothing kernel (3D)
+    70                                                  x     is a vector/matrix of x positions
+    71                                                  y     is a vector/matrix of y positions
+    72                                                  z     is a vector/matrix of z positions
+    73                                                  h     is the smoothing length
+    74                                                  wx, wy, wz     is the evaluated gradient
+    75                                                  """
+    76
+    77       126       4120.7     32.7     19.3         r = np.sqrt(x**2 + y**2 + z**2)
+    78
+    79       126      14277.4    113.3     66.9         n = -2 * np.exp( -r**2 / h**2) / h**5 / (np.pi)**(3/2)
+    80       126        654.5      5.2      3.1         wx = n * x
+    81       126       1091.1      8.7      5.1         wy = n * y
+    82       126       1069.9      8.5      5.0         wz = n * z
+    83
+    84       126        130.1      1.0      0.6         return wx, wy, wz
+
+This function took the most time:
+
+    79       126      14277.4    113.3     66.9         n = -2 * np.exp( -r**2 / h**2) / h**5 / (np.pi)**(3/2)
+
+Total time: 0.0380146 s
+File: sph.py
+Function: getPairwiseSeparations at line 86
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    86                                           @profile
+    87                                           def getPairwiseSeparations( ri, rj ):
+    88                                                  """
+    89                                                  Get pairwise desprations between 2 sets of coordinates
+    90                                                  ri    is an M x 3 matrix of positions
+    91                                                  rj    is an N x 3 matrix of positions
+    92                                                  dx, dy, dz   are M x N matrices of separations
+    93                                                  """
+    94
+    95       502        296.5      0.6      0.8         M = ri.shape[0]
+    96       502        224.6      0.4      0.6         N = rj.shape[0]
+    97
+    98                                                  # positions ri = (x,y,z)
+    99       502       1376.2      2.7      3.6         rix = ri[:,0].reshape((M,1))
+   100       502        527.5      1.1      1.4         riy = ri[:,1].reshape((M,1))
+   101       502        541.0      1.1      1.4         riz = ri[:,2].reshape((M,1))
+   102
+   103                                                  # other set of points positions rj = (x,y,z)
+   104       502        432.8      0.9      1.1         rjx = rj[:,0].reshape((N,1))
+   105       502        419.5      0.8      1.1         rjy = rj[:,1].reshape((N,1))
+   106       502        488.0      1.0      1.3         rjz = rj[:,2].reshape((N,1))
+   107
+   108                                                  # matrices that store all pairwise particle separations: r_i - r_j
+   109       502      15123.1     30.1     39.8         dx = rix - rjx.T
+   110       502       9097.2     18.1     23.9         dy = riy - rjy.T
+   111       502       8722.4     17.4     22.9         dz = riz - rjz.T
+   112
+   113       502        765.8      1.5      2.0         return dx, dy, dz
+
+Matrices calculation here are taking big chunk of our time, maybe using numpy will fix the issue?
+   108                                                  # matrices that store all pairwise particle separations: r_i - r_j
+   109       502      15123.1     30.1     39.8         dx = rix - rjx.T
+   110       502       9097.2     18.1     23.9         dy = riy - rjy.T
+   111       502       8722.4     17.4     22.9         dz = riz - rjz.T
+
+
+
+
+Total time: 0.105418 s
+File: sph.py
+Function: getDensity at line 115
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   115                                           @profile
+   116                                           def getDensity( r, pos, m, h ):
+   117                                                  """
+   118                                                  Get Density at sampling loctions from SPH particle distribution
+   119                                                  r     is an M x 3 matrix of sampling locations
+   120                                                  pos   is an N x 3 matrix of SPH particle positions
+   121                                                  m     is the particle mass
+   122                                                  h     is the smoothing length
+   123                                                  rho   is M x 1 vector of densities
+   124                                                  """
+   125
+   126       376        286.2      0.8      0.3         M = r.shape[0]
+   127
+   128       376      35918.5     95.5     34.1         dx, dy, dz = getPairwiseSeparations( r, pos );
+   129
+   130       376      68914.3    183.3     65.4         rho = np.sum( m * W(dx, dy, dz, h), 1 ).reshape((M,1))
+   131
+   132       376        299.3      0.8      0.3         return rho
+
+Main culprit here is: 
+   130       376      68914.3    183.3     65.4         rho = np.sum( m * W(dx, dy, dz, h), 1 ).reshape((M,1))
+
+
+
+Total time: 0.0006572 s
+File: sph.py
+Function: getPressure at line 134
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   134                                           @profile
+   135                                           def getPressure(rho, k, n):
+   136                                                  """
+   137                                                  Equation of State
+   138                                                  rho   vector of densities
+   139                                                  k     equation of state constant
+   140                                                  n     polytropic index
+   141                                                  P     pressure
+   142                                                  """
+   143
+   144       126        588.0      4.7     89.5         P = k * rho**(1+1/n)
+   145
+   146       126         69.2      0.5     10.5         return P
+
+Main culprit here is: 
+  144       126        588.0      4.7     89.5         P = k * rho**(1+1/n)
+
+
+
+
+Total time: 0.0935884 s
+File: sph.py
+Function: getAcc at line 148
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   148                                           @profile
+   149                                           def getAcc( pos, vel, m, h, k, n, lmbda, nu ):
+   150                                                  """
+   151                                                  Calculate the acceleration on each SPH particle
+   152                                                  pos   is an N x 3 matrix of positions
+   153                                                  vel   is an N x 3 matrix of velocities
+   154                                                  m     is the particle mass
+   155                                                  h     is the smoothing length
+   156                                                  k     equation of state constant
+   157                                                  n     polytropic index
+   158                                                  lmbda external force constant
+   159                                                  nu    viscosity
+   160                                                  a     is N x 3 matrix of accelerations
+   161                                                  """
+   162
+   163       126        188.2      1.5      0.2         N = pos.shape[0]
+   164
+   165                                                  # Calculate densities at the position of the particles
+   166       126      39914.5    316.8     42.6         rho = getDensity( pos, pos, m, h )
+   167
+   168                                                  # Get the pressures
+   169       126       1398.9     11.1      1.5         P = getPressure(rho, k, n)
+   170
+   171                                                  # Get pairwise distances and gradients
+   172       126       8136.0     64.6      8.7         dx, dy, dz = getPairwiseSeparations( pos, pos )
+   173       126      22438.8    178.1     24.0         dWx, dWy, dWz = gradW( dx, dy, dz, h )
+   174
+   175                                                  # Add Pressure contribution to accelerations
+   176       126       6645.6     52.7      7.1         ax = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWx, 1).reshape((N,1))
+   177       126       4948.2     39.3      5.3         ay = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWy, 1).reshape((N,1))
+   178       126       4716.6     37.4      5.0         az = - np.sum( m * ( P/rho**2 + P.T/rho.T**2  ) * dWz, 1).reshape((N,1))
+   179
+   180                                                  # pack together the acceleration components
+   181       126       3966.4     31.5      4.2         a = np.hstack((ax,ay,az))
+   182
+   183                                                  # Add external potential force
+   184       126        578.5      4.6      0.6         a -= lmbda * pos
+   185
+   186                                                  # Add viscosity
+   187       126        439.8      3.5      0.5         a -= nu * vel
+   188
+   189       126        216.9      1.7      0.2         return a
+
+Here, the main culprits are following lines:
+
+  166       126      39914.5    316.8     42.6         rho = getDensity( pos, pos, m, h )
+  173       126      22438.8    178.1     24.0         dWx, dWy, dWz = gradW( dx, dy, dz, h )
+
+
+
+
+
+
+
+
+Total time: 19.891 s
+File: sph.py
+Function: main at line 192
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   192                                           @profile
+   193                                           def main():
+   194                                                  """ SPH simulation """
+   195         1          1.9      1.9      0.0         start_time1 = time.time()
+   196                                                  # Simulation parameters
+   197         1          0.3      0.3      0.0         N         = 100    # Number of particles
+   198         1          0.2      0.2      0.0         t         = 0      # current time of the simulation
+   199         1          0.2      0.2      0.0         tEnd      = 5     # time at which simulation ends   - REDUCED TIME TO 5
+   200         1          0.2      0.2      0.0         dt        = 0.04   # timestep
+   201         1          0.2      0.2      0.0         M         = 2      # star mass
+   202         1          0.2      0.2      0.0         R         = 0.75   # star radius
+   203         1          0.2      0.2      0.0         h         = 0.1    # smoothing length
+   204         1          0.2      0.2      0.0         k         = 0.1    # equation of state constant
+   205         1          0.2      0.2      0.0         n         = 1      # polytropic index
+   206         1          0.2      0.2      0.0         nu        = 1      # damping
+   207         1          0.2      0.2      0.0         plotRealTime = True # switch on for plotting as the simulation goes along
+   208
+   209                                                  # Generate Initial Conditions
+   210         1         24.6     24.6      0.0         np.random.seed(42)            # set the random number generator seed
+   211
+   212         1         40.7     40.7      0.0         lmbda = 2*k*(1+n)*np.pi**(-3/(2*n)) * (M*gamma(5/2+n)/R**3/gamma(1+n))**(1/n) / R**2  # ~ 2.01
+   213         1          0.3      0.3      0.0         m     = M/N                    # single particle mass
+   214         1         24.4     24.4      0.0         pos   = np.random.randn(N,3)   # randomly selected positions and velocities
+   215         1          3.6      3.6      0.0         vel   = np.zeros(pos.shape)
+   216
+   217                                                  # calculate initial gravitational accelerations
+   218         1       1155.7   1155.7      0.0         acc = getAcc( pos, vel, m, h, k, n, lmbda, nu )
+   219
+   220                                                  # number of timesteps
+   221         1          7.1      7.1      0.0         Nt = int(np.ceil(tEnd/dt))
+   222
+   223                                                  # prep figure
+   224         1     158436.9 158436.9      0.8         fig = plt.figure(figsize=(4,5), dpi=80)
+   225         1         43.2     43.2      0.0         grid = plt.GridSpec(3, 1, wspace=0.0, hspace=0.3)
+   226         1      30305.8  30305.8      0.2         ax1 = plt.subplot(grid[0:2,0])
+   227         1      19894.5  19894.5      0.1         ax2 = plt.subplot(grid[2,0])
+   228         1          3.8      3.8      0.0         rr = np.zeros((100,3))
+   229         1         81.4     81.4      0.0         rlin = np.linspace(0,1,100)
+   230         1          2.5      2.5      0.0         rr[:,0] =rlin
+   231         1          9.2      9.2      0.0         rho_analytic = lmbda/(4*k) * (R**2 - rlin**2)
+   232
+   233                                                  # Simulation Main Loop
+   234       126        101.6      0.8      0.0         for i in range(Nt):
+   235                                                          # (1/2) kick
+   236       125       2996.7     24.0      0.0                 vel += acc * dt/2
+   237
+   238                                                          # drift
+   239       125        465.1      3.7      0.0                 pos += vel * dt
+   240
+   241                                                          # update accelerations
+   242       125      95233.7    761.9      0.5                 acc = getAcc( pos, vel, m, h, k, n, lmbda, nu )
+   243
+   244                                                          # (1/2) kick
+   245       125        661.1      5.3      0.0                 vel += acc * dt/2
+   246
+   247                                                          # update time
+   248       125         75.7      0.6      0.0                 t += dt
+   249
+   250                                                          # get density for plotting
+   251       125      28272.5    226.2      0.1                 rho = getDensity( pos, pos, m, h )
+   252
+   253                                                          # plot in real time
+   254       125         46.0      0.4      0.0                 if plotRealTime or (i == Nt-1):
+   255       125      23782.9    190.3      0.1                         plt.sca(ax1)
+   256       125    2058132.3  16465.1     10.3                         plt.cla()
+   257       125       2798.1     22.4      0.0                         cval = np.minimum((rho-3)/3,1).flatten()
+   258       125     384480.5   3075.8      1.9                         plt.scatter(pos[:,0],pos[:,1], c=cval, cmap=plt.cm.autumn, s=10, alpha=0.5)
+   259       125     173126.1   1385.0      0.9                         ax1.set(xlim=(-1.4, 1.4), ylim=(-1.2, 1.2))
+   260       125       4221.8     33.8      0.0                         ax1.set_aspect('equal', 'box')
+   261       125    1406939.6  11255.5      7.1                         ax1.set_xticks([-1,0,1])
+   262       125    1531298.2  12250.4      7.7                         ax1.set_yticks([-1,0,1])
+   263       125       3335.4     26.7      0.0                         ax1.set_facecolor('black')
+   264       125       2381.4     19.1      0.0                         ax1.set_facecolor((.1,.1,.1))
+   265
+   266       125      27722.9    221.8      0.1                         plt.sca(ax2)
+   267       125    2067239.5  16537.9     10.4                         plt.cla()
+   268       125      57539.9    460.3      0.3                         ax2.set(xlim=(0, 1), ylim=(0, 3))
+   269       125       4329.0     34.6      0.0                         ax2.set_aspect(0.1)
+   270       125     121459.1    971.7      0.6                         plt.plot(rlin, rho_analytic, color='gray', linewidth=2)
+   271       125      41139.6    329.1      0.2                         rho_radial = getDensity( rr, pos, m, h )
+   272       125     117974.2    943.8      0.6                         plt.plot(rlin, rho_radial, color='blue')
+   273       125   11524887.5  92199.1     57.9                         plt.pause(0.001)
+   274
+   275         1          3.9      3.9      0.0         end_time1 = time.time()
+   276         1          0.6      0.6      0.0         secs = end_time1 - start_time1
+   277         1        267.2    267.2      0.0         print("Whole process took", secs, "seconds")
+   278
+   279                                                  # # add labels/legend
+   280                                                  # plt.sca(ax2)
+   281                                                  # plt.xlabel('radius')
+   282                                                  # plt.ylabel('density')
+   283
+   284                                                  # # Save figure
+   285                                                  # plt.savefig('sph.png',dpi=240)
+   286                                                  # plt.show()
+   287
+   288
+   289
+   290         1          5.8      5.8      0.0         return 0
+
+   We can see that plotting in real time is taking a big hit on the performance, notably plt.cla() and plt.pause(0.001)

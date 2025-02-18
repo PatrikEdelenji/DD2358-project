@@ -1,9 +1,14 @@
 import numpy as np
+import matplotlib
+matplotlib.use("TkAgg")
 import matplotlib.pyplot as plt
 from scipy.special import gamma
 import time
 from functools import wraps
 from collections import defaultdict
+
+from Cython.Build.Inline import cython_inline
+import optimized_funcs # type: ignore
 
 import statistics
 import cProfile
@@ -46,7 +51,7 @@ def print_timing_stats():
         avg_time = stats["total"] / stats["count"] if stats["count"] > 0 else 0
         print(f"{func_name}: Min: {stats['min']:.6f}s, Max: {stats['max']:.6f}s, Avg: {avg_time:.6f}s, Calls: {stats['count']}")
 
-@profile
+# @profile
 def W( x, y, z, h ):
 	"""
     Gausssian Smoothing kernel (3D)
@@ -63,7 +68,7 @@ def W( x, y, z, h ):
 	
 	return w
 	
-@profile
+# @profile
 def gradW( x, y, z, h ):
 	"""
 	Gradient of the Gausssian Smoothing kernel (3D)
@@ -76,14 +81,18 @@ def gradW( x, y, z, h ):
 	
 	r = np.sqrt(x**2 + y**2 + z**2)
 	
-	n = -2 * np.exp( -r**2 / h**2) / h**5 / (np.pi)**(3/2)
+ 
+ 
+	n = optimized_funcs.optimized_n(r, h)  
+ 
+ 
 	wx = n * x
 	wy = n * y
 	wz = n * z
 	
 	return wx, wy, wz
 	
-@profile
+# @profile
 def getPairwiseSeparations( ri, rj ):
 	"""
 	Get pairwise desprations between 2 sets of coordinates
@@ -106,13 +115,10 @@ def getPairwiseSeparations( ri, rj ):
 	rjz = rj[:,2].reshape((N,1))
 	
 	# matrices that store all pairwise particle separations: r_i - r_j
-	dx = rix - rjx.T
-	dy = riy - rjy.T
-	dz = riz - rjz.T
+ 
+	return optimized_funcs.optimized_separations(rix, riy, riz, rjx, rjy, rjz)
 	
-	return dx, dy, dz
-	
-@profile
+# @profile
 def getDensity( r, pos, m, h ):
 	"""
 	Get Density at sampling loctions from SPH particle distribution
@@ -123,15 +129,15 @@ def getDensity( r, pos, m, h ):
 	rho   is M x 1 vector of densities
 	"""
 	
-	M = r.shape[0]
+	# M = r.shape[0] moved to cython file
 	
 	dx, dy, dz = getPairwiseSeparations( r, pos );
 	
-	rho = np.sum( m * W(dx, dy, dz, h), 1 ).reshape((M,1))
+	rho = optimized_funcs.optimized_density(dx, dy, dz, m, h)
 	
 	return rho
 	
-@profile
+# @profile
 def getPressure(rho, k, n):
 	"""
 	Equation of State
@@ -145,7 +151,7 @@ def getPressure(rho, k, n):
 	
 	return P
 	
-@profile
+# @profile
 def getAcc( pos, vel, m, h, k, n, lmbda, nu ):
 	"""
 	Calculate the acceleration on each SPH particle
@@ -189,12 +195,12 @@ def getAcc( pos, vel, m, h, k, n, lmbda, nu ):
 	return a
 	
 
-@profile
+# @profile
 def main():
 	""" SPH simulation """
 	start_time1 = time.time()
 	# Simulation parameters
-	N         = 100    # Number of particles
+	N         = 400    # Number of particles
 	t         = 0      # current time of the simulation
 	tEnd      = 5     # time at which simulation ends   - REDUCED TIME TO 5
 	dt        = 0.04   # timestep
@@ -276,14 +282,14 @@ def main():
 	secs = end_time1 - start_time1
 	print("Whole process took", secs, "seconds")
  
-	# # add labels/legend
-	# plt.sca(ax2)
-	# plt.xlabel('radius')
-	# plt.ylabel('density')
+	# add labels/legend
+	plt.sca(ax2)
+	plt.xlabel('radius')
+	plt.ylabel('density')
 	
-	# # Save figure
-	# plt.savefig('sph.png',dpi=240)
-	# plt.show()
+	# Save figure
+	plt.savefig('sph.png',dpi=240)
+	plt.show()
 
 
  

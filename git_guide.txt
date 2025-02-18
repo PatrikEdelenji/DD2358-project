@@ -1,0 +1,16 @@
+git add .   -> used to add all files to a commit
+
+git commit -m "your message"    -> used to commit your changes with a message (still wont be visible on git repository)
+
+
+git push   -> used to push your commited changes to repo (will be visible on the repo)
+
+
+git checkout -b "name-of-branch"   ->   used to create/navigate through branches
+
+
+git pull    -> used to sync your branch with current status of  branch on the repo 
+
+
+
+

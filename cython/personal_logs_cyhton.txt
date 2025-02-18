@@ -1,0 +1,19 @@
+For this I used WSL since Windows had some problems with using C and Python together in VScode, remember to also install VcXsrv (for showing plots)
+
+(Use this in case you dont see .venv folder) Once you have your WSL running, position yourself in DD2358-project/cython, and then use: python3 -m venv cython_env (this creates virtual environment where you have to install all dependencies)
+
+You then activate it by running: source cython_env/bin/activate
+
+Inside venv use:
+
+pip install --upgrade pip setuptools wheel
+pip install cython numpy matplotlib scipy
+
+In the directory, you will notice setup.py, this is a script for compiling our optimized_funcs.c script with functions written in C 
+You compile it using: python setup.py build_ext --inplace (it should create .so file)
+
+Also install: sudo apt install python3-tk (this is later used for plotting)
+
+Run: export DISPLAY=:0 (make sure your VcXsrv is running, you can check that by running xclock)
+
+And finally, run: python cython_sph.py
