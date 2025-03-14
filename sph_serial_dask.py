@@ -1,5 +1,7 @@
 
 import numpy as np
+import matplotlib
+matplotlib.use('Qt5Agg')  # Force the use of Qt5Agg backend
 import matplotlib.pyplot as plt
 from scipy.special import gamma
 import cProfile, pstats
@@ -160,7 +162,7 @@ def main(N = 400):
     # Simulation parameters
     N = N          # Number of particles
     t = 0            # Current time
-    tEnd = 5        # End time
+    tEnd = 10        # End time
     dt = 0.04        # Timestep
     M = 2            # Star mass
     R = 0.75         # Star radius
@@ -168,7 +170,7 @@ def main(N = 400):
     k = 0.1          # Equation of state constant
     n = 1            # Polytropic index
     nu = 1           # Damping/viscosity
-    plotRealTime = True  # Flag for plotting as simulation proceeds
+    plotRealTime = False  # Flag for plotting as simulation proceeds
 
     # Generate Initial Conditions
     np.random.seed(42)
@@ -194,10 +196,13 @@ def main(N = 400):
     Nt = int(np.ceil(tEnd / dt))
     
     # Prepare figure for real-time plotting
-    fig = plt.figure(figsize=(4, 5), dpi=80)
-    grid = plt.GridSpec(3, 1, wspace=0.0, hspace=0.3)
-    ax1 = plt.subplot(grid[0:2, 0])
-    ax2 = plt.subplot(grid[2, 0])
+    if plotRealTime:
+        fig = plt.figure(figsize=(4, 5), dpi=80)
+        fig.canvas.manager.set_window_title("SPH Simulation with Dask")
+        fig.canvas.manager.window.setGeometry(800, 0, 400, 600)
+        grid = plt.GridSpec(3, 1, wspace=0.0, hspace=0.3)
+        ax1 = plt.subplot(grid[0:2, 0])
+        ax2 = plt.subplot(grid[2, 0])
     
     rr = np.zeros((100, 3))
     rlin = np.linspace(0, 1, 100)
@@ -217,26 +222,26 @@ def main(N = 400):
         rho = getDensity(pos, pos, m, h)
         
         # Plot in real time (or at the final timestep)
-        # if plotRealTime or (i == Nt - 1):
-        #     plt.sca(ax1)
-        #     plt.cla()
-        #     cval = np.minimum((rho - 3) / 3, 1).flatten()
-        #     plt.scatter(pos[:, 0], pos[:, 1], c=cval, cmap=plt.cm.autumn,
-        #                 s=10, alpha=0.5)
-        #     ax1.set(xlim=(-1.4, 1.4), ylim=(-1.2, 1.2))
-        #     ax1.set_aspect('equal', 'box')
-        #     ax1.set_xticks([-1, 0, 1])
-        #     ax1.set_yticks([-1, 0, 1])
-        #     ax1.set_facecolor((0.1, 0.1, 0.1))
+        if plotRealTime: #or (i == Nt - 1):
+            plt.sca(ax1)
+            plt.cla()
+            cval = np.minimum((rho - 3) / 3, 1).flatten()
+            plt.scatter(pos[:, 0], pos[:, 1], c=cval, cmap=plt.cm.autumn,
+                        s=10, alpha=0.5)
+            ax1.set(xlim=(-1.4, 1.4), ylim=(-1.2, 1.2))
+            ax1.set_aspect('equal', 'box')
+            ax1.set_xticks([-1, 0, 1])
+            ax1.set_yticks([-1, 0, 1])
+            ax1.set_facecolor((0.1, 0.1, 0.1))
             
-        #     plt.sca(ax2)
-        #     plt.cla()
-        #     ax2.set(xlim=(0, 1), ylim=(0, 3))
-        #     ax2.set_aspect(0.1)
-        #     plt.plot(rlin, rho_analytic, color='gray', linewidth=2)
-        #     rho_radial = getDensity(rr, pos, m, h)
-        #     plt.plot(rlin, rho_radial, color='blue')
-            # plt.pause(0.001)
+            plt.sca(ax2)
+            plt.cla()
+            ax2.set(xlim=(0, 1), ylim=(0, 3))
+            ax2.set_aspect(0.1)
+            plt.plot(rlin, rho_analytic, color='gray', linewidth=2)
+            rho_radial = getDensity(rr, pos, m, h)
+            plt.plot(rlin, rho_radial, color='blue')
+            plt.pause(0.001)
     
     # Add labels/legend and save figure
     # plt.sca(ax2)
@@ -250,7 +255,7 @@ def main(N = 400):
 
 if __name__ == "__main__":
     part = [400,2000,4000,8000]
-    # part = [8000]
+    #part = [4000]
     for i in part:
         # client = Client(n_workers=6, threads_per_worker=1, processes=True, memory_limit='2GB')
         # print("Dask Dashboard is available at:", client.dashboard_link)
