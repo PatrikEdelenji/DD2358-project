@@ -1,0 +1,252 @@
+Profiling for 400 particles..
+         15443316 function calls (15021389 primitive calls) in 9.031 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1617 to 8 due to restriction <8>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   1633/1    0.011    0.000    9.049    9.049 /opt/homebrew/lib/python3.12/site-packages/line_profiler/line_profiler.py:146(wrapper)
+        1    0.006    0.006    9.049    9.049 sph.py:120(main)
+      125    0.001    0.000    5.048    0.040 /opt/homebrew/lib/python3.12/site-packages/matplotlib/pyplot.py:733(pause)
+      125    0.003    0.000    4.860    0.039 /opt/homebrew/lib/python3.12/site-packages/matplotlib/backends/backend_qt.py:443(start_event_loop)
+      125    0.000    0.000    4.842    0.039 /opt/homebrew/lib/python3.12/site-packages/matplotlib/backends/qt_compat.py:157(_exec)
+      125    0.143    0.001    4.842    0.039 {built-in method exec}
+      250    0.001    0.000    4.590    0.018 /opt/homebrew/lib/python3.12/site-packages/matplotlib/backends/backend_qt.py:490(_draw_idle)
+      125    0.001    0.000    4.587    0.037 /opt/homebrew/lib/python3.12/site-packages/matplotlib/backends/backend_agg.py:380(draw)
+
+
+Wrote profile results to sph.py.lprof
+Timer unit: 1e-06 s
+
+Total time: 0.211198 s
+File: sph.py
+Function: W at line 16
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    16                                           @profile
+    17                                           def W(x, y, z, h):
+    18                                               """
+    19                                               Gaussian Smoothing kernel (3D)
+    20                                               x     is a vector/matrix of x positions
+    21                                               y     is a vector/matrix of y positions
+    22                                               z     is a vector/matrix of z positions
+    23                                               h     is the smoothing length
+    24                                               w     is the evaluated smoothing function
+    25                                               """
+    26       376      73735.0    196.1     34.9      r = np.sqrt(x**2 + y**2 + z**2)
+    27       376     137333.0    365.2     65.0      w = (1.0 / (h * np.sqrt(np.pi)))**3 * np.exp(-r**2 / h**2)
+    28       376        130.0      0.3      0.1      return w
+
+Total time: 0.119506 s
+File: sph.py
+Function: gradW at line 30
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    30                                           @profile
+    31                                           def gradW(x, y, z, h):
+    32                                               """
+    33                                               Gradient of the Gaussian Smoothing kernel (3D)
+    34                                               x, y, z  are vectors/matrices of positions
+    35                                               h        is the smoothing length
+    36                                               Returns: wx, wy, wz (gradients)
+    37                                               """
+    38       126      31225.0    247.8     26.1      r = np.sqrt(x**2 + y**2 + z**2)
+    39       126      63096.0    500.8     52.8      n = -2 * np.exp(-r**2 / h**2) / (h**5 * (np.pi)**(3/2))
+    40       126       4393.0     34.9      3.7      wx = n * x
+    41       126       9941.0     78.9      8.3      wy = n * y
+    42       126      10801.0     85.7      9.0      wz = n * z
+    43       126         50.0      0.4      0.0      return wx, wy, wz
+
+Total time: 0.200921 s
+File: sph.py
+Function: getPairwiseSeparations at line 45
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    45                                           @profile
+    46                                           def getPairwiseSeparations(ri, rj):
+    47                                               """
+    48                                               Get pairwise separations between 2 sets of coordinates.
+    49                                               ri: an M x 3 matrix of positions.
+    50                                               rj: an N x 3 matrix of positions.
+    51                                               Returns: dx, dy, dz (each M x N matrices of separations)
+    52                                               """
+    53       502        103.0      0.2      0.1      M = ri.shape[0]
+    54       502         84.0      0.2      0.0      N = rj.shape[0]
+    55                                               # Reshape positions for broadcasting
+    56       502        480.0      1.0      0.2      rix = ri[:, 0].reshape((M, 1))
+    57       502        266.0      0.5      0.1      riy = ri[:, 1].reshape((M, 1))
+    58       502        240.0      0.5      0.1      riz = ri[:, 2].reshape((M, 1))
+    59       502        278.0      0.6      0.1      rjx = rj[:, 0].reshape((N, 1))
+    60       502        225.0      0.4      0.1      rjy = rj[:, 1].reshape((N, 1))
+    61       502        254.0      0.5      0.1      rjz = rj[:, 2].reshape((N, 1))
+    62       502      65619.0    130.7     32.7      dx = rix - rjx.T
+    63       502      63587.0    126.7     31.6      dy = riy - rjy.T
+    64       502      69546.0    138.5     34.6      dz = riz - rjz.T
+    65       502        239.0      0.5      0.1      return dx, dy, dz
+
+Total time: 0.381277 s
+File: sph.py
+Function: getDensity at line 67
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    67                                           @profile
+    68                                           def getDensity(r, pos, m, h):
+    69                                               """
+    70                                               Get Density at sampling locations from SPH particle distribution.
+    71                                               r   : an M x 3 matrix of sampling locations.
+    72                                               pos : an N x 3 matrix of SPH particle positions.
+    73                                               m   : particle mass.
+    74                                               h   : smoothing length.
+    75                                               Returns: rho, an M x 1 vector of densities.
+    76                                               """
+    77       376     150154.0    399.3     39.4      dx, dy, dz = getPairwiseSeparations(r, pos)
+    78       376     231031.0    614.4     60.6      rho = np.sum(m * W(dx, dy, dz, h), axis=1).reshape((-1, 1))
+    79       376         92.0      0.2      0.0      return rho
+
+Total time: 0.000302 s
+File: sph.py
+Function: getPressure at line 81
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    81                                           @profile
+    82                                           def getPressure(rho, k, n):
+    83                                               """
+    84                                               Equation of State.
+    85                                               rho : vector of densities.
+    86                                               k   : equation of state constant.
+    87                                               n   : polytropic index.
+    88                                               Returns: Pressure P.
+    89                                               """
+    90       126        275.0      2.2     91.1      P = k * rho**(1 + 1/n)
+    91       126         27.0      0.2      8.9      return P
+
+Total time: 0.413694 s
+File: sph.py
+Function: getAcc at line 93
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    93                                           @profile
+    94                                           def getAcc(pos, vel, m, h, k, n, lmbda, nu):
+    95                                               """
+    96                                               Calculate the acceleration on each SPH particle.
+    97                                               pos   : N x 3 matrix of positions.
+    98                                               vel   : N x 3 matrix of velocities.
+    99                                               m     : particle mass.
+   100                                               h     : smoothing length.
+   101                                               k     : equation-of-state constant.
+   102                                               n     : polytropic index.
+   103                                               lmbda : external force constant.
+   104                                               nu    : viscosity.
+   105                                               Returns: a, N x 3 matrix of accelerations.
+   106                                               """
+   107       126         52.0      0.4      0.0      N = pos.shape[0]
+   108       126     172981.0   1372.9     41.8      rho = getDensity(pos, pos, m, h)
+   109       126        590.0      4.7      0.1      P = getPressure(rho, k, n)
+   110       126      52771.0    418.8     12.8      dx, dy, dz = getPairwiseSeparations(pos, pos)
+   111       126     119921.0    951.8     29.0      dWx, dWy, dWz = gradW(dx, dy, dz, h)
+   112       126      21936.0    174.1      5.3      ax = -np.sum(m * (P/rho**2 + P.T/(rho.T**2)) * dWx, axis=1).reshape((N, 1))
+   113       126      21621.0    171.6      5.2      ay = -np.sum(m * (P/rho**2 + P.T/(rho.T**2)) * dWy, axis=1).reshape((N, 1))
+   114       126      21610.0    171.5      5.2      az = -np.sum(m * (P/rho**2 + P.T/(rho.T**2)) * dWz, axis=1).reshape((N, 1))
+   115       126       1575.0     12.5      0.4      a = np.hstack((ax, ay, az))
+   116       126        314.0      2.5      0.1      a -= lmbda * pos   # external potential force
+   117       126        228.0      1.8      0.1      a -= nu * vel      # viscosity
+   118       126         95.0      0.8      0.0      return a
+
+Total time: 9.04774 s
+File: sph.py
+Function: main at line 120
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   120                                           @profile
+   121                                           def main(N = 400):
+   122                                               """ SPH simulation """
+   123                                               # Simulation parameters
+   124         1          1.0      1.0      0.0      N = N          # Number of particles
+   125         1          0.0      0.0      0.0      t = 0            # Current time
+   126         1          0.0      0.0      0.0      tEnd = 5        # End time
+   127         1          0.0      0.0      0.0      dt = 0.04        # Timestep
+   128         1          0.0      0.0      0.0      M = 2            # Star mass
+   129         1          0.0      0.0      0.0      R = 0.75         # Star radius
+   130         1          0.0      0.0      0.0      h = 0.1          # Smoothing length
+   131         1          0.0      0.0      0.0      k = 0.1          # Equation of state constant
+   132         1          0.0      0.0      0.0      n = 1            # Polytropic index
+   133         1          0.0      0.0      0.0      nu = 1           # Damping/viscosity
+   134         1          0.0      0.0      0.0      plotRealTime = True  # Flag for plotting as simulation proceeds
+   135                                           
+   136                                               # Generate Initial Conditions
+   137         1          9.0      9.0      0.0      np.random.seed(42)
+   138         3          8.0      2.7      0.0      lmbda = (2 * k * (1 + n) * np.pi**(-3/(2*n)) *
+   139         2         15.0      7.5      0.0               (M * gamma(5/2+n) / R**3 / gamma(1+n))**(1/n) / R**2)
+   140         1          0.0      0.0      0.0      m = M / N                    # Particle mass
+   141         1         30.0     30.0      0.0      pos = np.random.randn(N, 3)  # Random initial positions
+   142         1         14.0     14.0      0.0      vel = np.zeros_like(pos)     # Initial velocities (zero)
+   143                                               
+   144                                               # Calculate initial accelerations
+   145         1       4048.0   4048.0      0.0      acc = getAcc(pos, vel, m, h, k, n, lmbda, nu)
+   146                                               
+   147                                               # Number of timesteps
+   148         1          2.0      2.0      0.0      Nt = int(np.ceil(tEnd / dt))
+   149                                               
+   150                                               # Prepare figure for real-time plotting
+   151         1     164402.0 164402.0      1.8      fig = plt.figure(figsize=(4, 5), dpi=80)
+   152         1          3.0      3.0      0.0      fig.canvas.manager.set_window_title("SPH Simulation")
+   153         1          2.0      2.0      0.0      fig.canvas.manager.window.setGeometry(0, 0, 400, 600)
+   154         1         32.0     32.0      0.0      grid = plt.GridSpec(3, 1, wspace=0.0, hspace=0.3)
+   155         1      17138.0  17138.0      0.2      ax1 = plt.subplot(grid[0:2, 0])
+   156         1       9402.0   9402.0      0.1      ax2 = plt.subplot(grid[2, 0])
+   157                                               
+   158         1          2.0      2.0      0.0      rr = np.zeros((100, 3))
+   159         1         44.0     44.0      0.0      rlin = np.linspace(0, 1, 100)
+   160         1          1.0      1.0      0.0      rr[:, 0] = rlin
+   161         1          4.0      4.0      0.0      rho_analytic = lmbda / (4 * k) * (R**2 - rlin**2)
+   162                                               
+   163                                               # Simulation Main Loop
+   164       126         42.0      0.3      0.0      for i in range(Nt):
+   165                                                   # Leapfrog integration: half-kick, drift, update acceleration, half-kick.
+   166       125        725.0      5.8      0.0          vel += acc * dt / 2
+   167       125        191.0      1.5      0.0          pos += vel * dt
+   168       125     414890.0   3319.1      4.6          acc = getAcc(pos, vel, m, h, k, n, lmbda, nu)
+   169       125        355.0      2.8      0.0          vel += acc * dt / 2
+   170       125         27.0      0.2      0.0          t += dt
+   171                                                   
+   172                                                   # Get density for plotting
+   173       125     162961.0   1303.7      1.8          rho = getDensity(pos, pos, m, h)
+   174                                                   
+   175                                                   # Plot in real time (or at the final timestep)
+   176       125         28.0      0.2      0.0          if plotRealTime or (i == Nt - 1):
+   177       125       3247.0     26.0      0.0              plt.sca(ax1)
+   178       125     833793.0   6670.3      9.2              plt.cla()
+   179       125        790.0      6.3      0.0              cval = np.minimum((rho - 3) / 3, 1).flatten()
+   180       250     166923.0    667.7      1.8              plt.scatter(pos[:, 0], pos[:, 1], c=cval, cmap=plt.cm.autumn,
+   181       125         21.0      0.2      0.0                          s=10, alpha=0.5)
+   182       125      70912.0    567.3      0.8              ax1.set(xlim=(-1.4, 1.4), ylim=(-1.2, 1.2))
+   183       125       1662.0     13.3      0.0              ax1.set_aspect('equal', 'box')
+   184       125     608870.0   4871.0      6.7              ax1.set_xticks([-1, 0, 1])
+   185       125     567284.0   4538.3      6.3              ax1.set_yticks([-1, 0, 1])
+   186       125       1157.0      9.3      0.0              ax1.set_facecolor((0.1, 0.1, 0.1))
+   187                                                       
+   188       125       2137.0     17.1      0.0              plt.sca(ax2)
+   189       125     807362.0   6458.9      8.9              plt.cla()
+   190       125      23686.0    189.5      0.3              ax2.set(xlim=(0, 1), ylim=(0, 3))
+   191       125       1653.0     13.2      0.0              ax2.set_aspect(0.1)
+   192       125      44140.0    353.1      0.5              plt.plot(rlin, rho_analytic, color='gray', linewidth=2)
+   193       125      50664.0    405.3      0.6              rho_radial = getDensity(rr, pos, m, h)
+   194       125      41328.0    330.6      0.5              plt.plot(rlin, rho_radial, color='blue')
+   195       125    5047730.0  40381.8     55.8              plt.pause(0.001)
+   196                                               
+   197                                               # Add labels/legend and save figure
+   198                                               # plt.sca(ax2)
+   199                                               # plt.xlabel('radius')
+   200                                               # plt.ylabel('density')
+   201                                               # plt.savefig('sph.png', dpi=240)
+   202                                               # plt.show()
+   203                                               
+   204         1          1.0      1.0      0.0      return 0
+

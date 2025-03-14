@@ -1,10 +1,8 @@
-
 import numpy as np
 import matplotlib
 matplotlib.use('Qt5Agg')  # Force the use of Qt5Agg backend
 import matplotlib.pyplot as plt
 from scipy.special import gamma
-import cProfile, pstats
 
 # If not running under kernprof, define a dummy decorator.
 try:
@@ -118,7 +116,7 @@ def getAcc(pos, vel, m, h, k, n, lmbda, nu):
     return a
 
 @profile
-def main(N = 400):
+def main(N=400):
     """ SPH simulation """
     # Simulation parameters
     N = N          # Number of particles
@@ -194,25 +192,7 @@ def main(N = 400):
             plt.plot(rlin, rho_radial, color='blue')
             plt.pause(0.001)
     
-    # Add labels/legend and save figure
-    # plt.sca(ax2)
-    # plt.xlabel('radius')
-    # plt.ylabel('density')
-    # plt.savefig('sph.png', dpi=240)
-    # plt.show()
-    
     return 0
 
 if __name__ == "__main__":
-    # part = [400,2000,4000,8000]
-    part = [400]
-    for i in part:
-        print(f"Profiling for {i} particles..")
-        profiler = cProfile.Profile()
-        profiler.enable()  # Start profiling
-        main(i)
-        profiler.disable()  # Stop profiling
-
-        # Create a Stats object and sort the results by cumulative time.
-        stats = pstats.Stats(profiler).sort_stats("cumtime")
-        stats.print_stats(8)
+    main(400)
